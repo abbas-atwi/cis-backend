@@ -10,11 +10,22 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import br.uniamerica.cis.domain.exception.BusinessRuleException;
+
 @ControllerAdvice //monitora exceptions lançadas na camada controller
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+	
+	@ExceptionHandler(BusinessRuleException.class)
+	public ResponseEntity<Object> handleBusinessError(BusinessRuleException ex, WebRequest request){
+		var status = HttpStatus.BAD_REQUEST;
+		var body = new ResponseApi(status.value(), OffsetDateTime.now(), ex.getMessage());
+		return super.handleExceptionInternal(ex, body, new HttpHeaders(), status, request);
+		
+	}
 	
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,

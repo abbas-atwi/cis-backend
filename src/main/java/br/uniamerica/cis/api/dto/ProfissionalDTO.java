@@ -1,22 +1,13 @@
 package br.uniamerica.cis.api.dto;
 
-import java.util.Date;
+public class ProfissionalDTO {
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-public class UsuarioDTO {
-	
 	private String nome;
 	private String sobrenome;
-	private String sexo;
-	@JsonFormat(pattern = "dd-MM-yyyy")
-	private Date dataNascimento;
+	private String crm;
 	private String email;
 	private String telefone;
 
-	public UsuarioDTO() {
-	}
-	
 	public String getNome() {
 		return nome;
 	}
@@ -33,12 +24,12 @@ public class UsuarioDTO {
 		this.sobrenome = sobrenome;
 	}
 
-	public Date getDataNascimento() {
-		return dataNascimento;
+	public String getCrm() {
+		return crm;
 	}
 
-	public void setDataNascimento(Date dataNascimento) {
-		this.dataNascimento = dataNascimento;
+	public void setCrm(String crm) {
+		this.crm = crm;
 	}
 
 	public String getEmail() {
@@ -57,11 +48,4 @@ public class UsuarioDTO {
 		this.telefone = telefone;
 	}
 
-	public String getSexo() {
-		return sexo;
-	}
-
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
-	}
 }

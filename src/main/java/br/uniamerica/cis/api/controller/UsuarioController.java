@@ -2,6 +2,7 @@ package br.uniamerica.cis.api.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -23,8 +24,8 @@ import br.uniamerica.cis.domain.model.Usuario;
 import br.uniamerica.cis.domain.repository.UsuarioRespository;
 import br.uniamerica.cis.domain.service.UsuarioService;
 
-@RequestMapping("/usuarios")// Busca os usuarios
 @RestController // Pq estou utilizando Rest
+@RequestMapping("/usuarios")// Busca os usuarios
 public class UsuarioController {
 	
 	@Autowired // serve pra injecao de idependencia, as classes ficam menos dependentes uma da outro desacoplota
@@ -38,14 +39,14 @@ public class UsuarioController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED) // ele retorna 201
-	private Usuario adicionar(@Valid @RequestBody UsuarioInput user) { //Ele add e retorna cliente
+	private UsuarioDTO adicionar(@Valid @RequestBody UsuarioInput user) { //Ele add e retorna cliente
 		Usuario novoUsuario = toEntity(user);
-		return usuarioService.salvar(novoUsuario);
+		return toModel(usuarioService.salvar(novoUsuario));
 	}
 
 	@GetMapping
-	private List <Usuario> listar(){
-		return usuarioRepository.findAll();
+	private List <UsuarioDTO> listar(){
+		return toCollectionModel(usuarioRepository.findAll());
 	}
 	
 	@GetMapping("/{usuarioId}")
@@ -68,5 +69,10 @@ public class UsuarioController {
 	//converte um modelo representacional para um objeto entitade
 	private Usuario toEntity(UsuarioInput user) {
 		return modelMapper.map(user, Usuario.class);
+	}
+	
+	private List<UsuarioDTO> toCollectionModel(List<Usuario> users){
+		return users.stream().map( usuario -> toModel(usuario))
+				.collect(Collectors.toList());
 	}
 }
