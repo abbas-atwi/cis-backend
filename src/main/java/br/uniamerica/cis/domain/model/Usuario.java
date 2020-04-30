@@ -25,7 +25,6 @@ public class Usuario {
 	
 	@JsonFormat(pattern="dd-MM-yyyy")
 	private Date dataNascimento;
-	
 	private String sexo;
 	private String telefone;
 	private String email;
