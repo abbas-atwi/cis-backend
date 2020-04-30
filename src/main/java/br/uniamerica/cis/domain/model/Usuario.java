@@ -1,31 +1,39 @@
 package br.uniamerica.cis.domain.model;
 
-import java.time.OffsetDateTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import br.uniamerica.cis.domain.model.enumeration.StatusUsuario;
+
 @Entity
 public class Usuario {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String nome;
 	private String sobrenome;
-	private OffsetDateTime dataNascimento;
+	
+	@JsonFormat(pattern="dd-MM-yyyy")
+	private Date dataNascimento;
+	
+	private String sexo;
 	private String telefone;
 	private String email;
+	
+	@Enumerated(EnumType.STRING)
 	private StatusUsuario status;
 	
-	public enum StatusUsuario{
-		ATIVO,
-		INATIVO;
-	}
-	
-	private Usuario() {
+	public Usuario() {
 	}
 
 	public Long getId() {
@@ -52,12 +60,20 @@ public class Usuario {
 		this.sobrenome = sobrenome;
 	}
 
-	public OffsetDateTime getDataNascimento() {
+	public Date getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(OffsetDateTime dataNascimento) {
+	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
 
 	public String getTelefone() {
